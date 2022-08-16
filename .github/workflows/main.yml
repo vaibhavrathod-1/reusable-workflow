@@ -39,18 +39,18 @@ jobs:
           username: ${{secrets.registry_username}}
           password: ${{secrets.registry_password}}
       
-      - name: Set the tag
-        run: |
-          if [ -z "${{inputs.tag}}" ]
-          then 
-            echo "final_tag=latest" >> $GITHUB_ENV
-          else
-            echo "final_tag=${{inputs.tag}}">>$GITHUB_ENV
-          fi
+#       - name: Set the tag
+#         run: |
+#           if [ -z "${{inputs.tag}}" ]
+#           then 
+#             echo "final_tag=latest" >> $GITHUB_ENV
+#           else
+#             echo "final_tag=${{inputs.tag}}">>$GITHUB_ENV
+#           fi
       - name: Build and Push the Image
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-          tags: ${{secrets.registry_username}}/${{inputs.image_name}}:${{env.final_tag}}
+          tags: ${{secrets.registry_username}}/${{inputs.image_name}}:${{inputs.tag}}
           
